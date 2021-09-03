@@ -1,0 +1,54 @@
+<resources>
+    <!--Loading对话框参数-->
+    <dimen name="loading_dialog_icon_width">30dp</dimen>
+    <dimen name="loading_dialog_icon_height">30dp</dimen>
+    <dimen name="loading_dialog_msg_margin_top">10dp</dimen>
+    <dimen name="loading_dialog_width">60dp</dimen>
+    <dimen name="loading_dialog_height">60dp</dimen>
+
+    <!--MenuPopupWindow-->
+    <dimen name="menu_popup_window_icon_width">25dp</dimen>
+    <dimen name="menu_popup_window_icon_height">25dp</dimen>
+    <dimen name="menu_popup_window_item_padding_left">10dp</dimen>
+    <dimen name="menu_popup_window_item_padding_top">10dp</dimen>
+    <dimen name="menu_popup_window_item_padding_right">40dp</dimen>
+    <dimen name="menu_popup_window_item_padding_bottom">10dp</dimen>
+    <dimen name="menu_popup_window_margin_icon_text">10dp</dimen>
+    <dimen name="menu_popup_window_headview_height">10dp</dimen>
+    <dimen name="menu_popup_window_divider">0.5dp</dimen>
+    <dimen name="menu_popup_window_text_size">18sp</dimen>
+    <dimen name="menu_popup_window_menu_text_size">12sp</dimen>
+
+    <!--简单标题栏参数-->
+    <dimen name="simple_title_bar_default_height">48dp</dimen>
+    <dimen name="simple_title_bar_left_padding">12dp</dimen>
+    <dimen name="simple_title_bar_right_padding">12dp</dimen>
+    <dimen name="simple_title_bar_inner_padding">8dp</dimen>
+    <dimen name="simple_title_bar_drawable_padding">8dp</dimen>
+    <dimen name="simple_title_bar_shadow_height">0dp</dimen>
+    <dimen name="simple_title_bar_text_size">18sp</dimen>
+    <dimen name="simple_title_bar_left_text_size">12sp</dimen>
+    <dimen name="simple_title_bar_right_text_size">12sp</dimen>
+
+    <!--IosPopupDialog-->
+    <dimen name="ios_popup_dialog_width">236dp</dimen>
+    <dimen name="ios_popup_dialog_margin_title">15dp</dimen>
+    <dimen name="ios_popup_dialog_margin_division">10dp</dimen>
+    <dimen name="ios_popup_dialog_height_button">43dp</dimen>
+    <dimen name="ios_popup_dialog_padding_no_button">20dp</dimen>
+    <dimen name="ios_popup_dialog_button_text_size">16sp</dimen>
+
+    <!--BadgeRadioButton-->
+    <dimen name="badge_radio_button_text_size">10sp</dimen>
+
+    <!--消息item圆角大小-->
+    <dimen name="message_list_round_size">5dp</dimen>
+    <dimen name="scan_top_oval_small">24dp</dimen>
+    <dimen name="scan_top_oval_big">32dp</dimen>
+    <dimen name="scan_top_line_height">4dp</dimen>
+    <dimen name="scan_top_image_height">16dp</dimen>
+    <dimen name="scan_top_height">30dp</dimen>
+    <dimen name="scan_top_margin">100dp</dimen>
+    <dimen name="scan_top_text_margin">86dp</dimen>
+    <dimen name="scan_top_line_width">106dp</dimen>
+</resources>
