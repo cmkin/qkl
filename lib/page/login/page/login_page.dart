@@ -2,9 +2,11 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:zjsb_app/common/common.dart';
 import 'package:zjsb_app/generated/l10n.dart';
+import 'package:zjsb_app/http/models/user_info.dart';
 import 'package:zjsb_app/page/home/home_router.dart';
 import 'package:zjsb_app/mvp/base_page.dart';
 import 'package:zjsb_app/page/login/iview/login_iview.dart';
@@ -27,6 +29,7 @@ import 'package:zjsb_app/util/toast.dart';
 import 'package:zjsb_app/widgets/my_button.dart';
 import 'package:zjsb_app/widgets/my_scroll_view.dart';
 import 'package:zjsb_app/widgets/webview/web_title_page.dart';
+import 'package:zjsb_app/page/login/provider/user_info.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,6 +48,8 @@ class _LoginPageState extends State<LoginPage>
   final FocusNode _nodeText2 = FocusNode();
   TapGestureRecognizer tapGest = TapGestureRecognizer();
   bool _clickable = false;
+  //privide
+  UserInfoPrivider provider = UserInfoPrivider();
 
   @override
   Map<ChangeNotifier, List<VoidCallback>> changeNotifier() {
@@ -97,13 +102,24 @@ class _LoginPageState extends State<LoginPage>
   }
 
   @override
-  void setLoginResponse(LoginEntity loginEntity) {
-    print("登录成功$loginEntity");
+  void setLoginResponse(token) {
+    print("登录成功${token}");
     NavigatorUtils.push(context, HomeRouter.homePage, replace: true);
+
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      provider.updateUserInfo(token);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => provider,
+      child: _pageHone(),
+    );
+  }
+
+  Widget _pageHone() {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       // 设置沉浸式状态栏文字颜色
       value: ThemeUtils.setNavigationBarTextColor(false),

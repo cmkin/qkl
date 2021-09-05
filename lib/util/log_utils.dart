@@ -9,7 +9,8 @@ class Log {
 
   static void init() {
     print(LogUtil);
-    LogUtil.init(isDebug: !Constant.inProduction);
+    // LogUtil.init(isDebug: !Constant.inProduction);
+    LogUtil.init(isDebug: false);
   }
 
   static void d(String msg, {String tag = tag}) {

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_picker/PickerLocalizationsDelegate.dart';
@@ -33,17 +34,13 @@ import 'package:fluwx_no_pay/fluwx_no_pay.dart';
 
 import 'package:zjsb_app/http/http_utils.dart';
 
+import 'package:zjsb_app/util/toast.dart';
+
 Future<void> main() async {
 //  debugProfileBuildsEnabled = true;
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
-
-  //dio初始化
-
-  HttpUtils.init(
-    baseUrl: Constant.baseUrl,
-  );
 
 //webview加载
 
@@ -52,6 +49,10 @@ Future<void> main() async {
   // //高德api初始化
   // AMapFlutterLocation.setApiKey(
   //     'f7ac91c19bd5b59b69ee1fb1195b3ee4', '58561b5223ab097bdfa732be15c56125');
+  //dio初始化
+  HttpUtils.init(
+    baseUrl: Constant.baseUrl,
+  );
 
   /// sp初始化
   await SpUtil.getInstance();
@@ -107,8 +108,6 @@ class MyApp extends StatelessWidget {
   final ThemeData theme;
 
   MyApp({this.home, this.theme}) {
-    Log.init();
-    initDio();
     Routes.initRoutes();
     SpUtil.putBool(Constant.isShowNative, false);
     _initFluwx();
@@ -158,6 +157,8 @@ class MyApp extends StatelessWidget {
 
   Widget _buildMaterialApp(BuildContext context, ThemeProvider provider,
       LocaleProvider localeProvider) {
+    final easyload = EasyLoading.init();
+    EasyLoading.instance..userInteractions = false; //loading 禁止操作
     return ScreenUtilInit(
         designSize: Size(375, 667),
         builder: () => MaterialApp(
@@ -183,11 +184,15 @@ class MyApp extends StatelessWidget {
               supportedLocales: S.delegate.supportedLocales,
               locale: localeProvider.locale,
               builder: (context, child) {
+                child = easyload(context, child);
+
                 /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
-                return MediaQuery(
+                child = MediaQuery(
                   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   child: child,
                 );
+
+                return child;
               },
               // ignore: missing_return
               localeResolutionCallback: (deviceLocale, supportedLocales) {

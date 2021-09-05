@@ -2324,6 +2324,16 @@ class S {
       args: [],
     );
   }
+
+  /// `登录成功`
+  String get login_succ {
+    return Intl.message(
+      '登录成功',
+      name: 'login_succ',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
