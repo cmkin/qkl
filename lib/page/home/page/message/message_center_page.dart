@@ -8,10 +8,12 @@ import 'package:zjsb_app/util/color_utils.dart';
 import 'package:zjsb_app/widgets/load_image.dart';
 import 'package:zjsb_app/widgets/my_app_bar.dart';
 import 'package:styled_widget/styled_widget.dart';
-
+import 'package:intl/intl.dart';
 import 'order_message_page.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zjsb_app/http/api.dart';
+import 'package:zjsb_app/http/models/all_newest.dart';
 
 class MessageCenter extends StatefulWidget {
   @override
@@ -19,8 +21,32 @@ class MessageCenter extends StatefulWidget {
 }
 
 class _MessageCenterState extends State<MessageCenter> {
+  //var
+
   int num1 = 12;
   int num2 = 12;
+  List NewList = [];
+
+  //methods
+
+  void getNewest() async {
+    var data = await MessagePage.getAllNewest();
+    setState(() {
+      NewList = data.map((item) {
+        String creatTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .format(DateTime.fromMillisecondsSinceEpoch(item.time));
+        item.creatTime = creatTime;
+
+        return item;
+      }).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNewest();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +118,8 @@ class _MessageCenterState extends State<MessageCenter> {
                                         .fontSize(15.sp)
                                         .fontWeight(FontWeight.w600),
                                   ),
-                                  num1 > 0
-                                      ? Text("2021-06-06 15:30:00")
+                                  NewList.length > 0
+                                      ? Text('${NewList[0]?.creatTime}')
                                           .textColor(Colours.text_gray)
                                           .fontSize(10.sp)
                                       : Gaps.empty,
@@ -101,8 +127,8 @@ class _MessageCenterState extends State<MessageCenter> {
                               ),
                               Gaps.vGap5,
                               Text(
-                                num1 > 0
-                                    ? "阿桑的歌康拉德立刻改口了档案里快递给你爱的路过那里看过那可怜的给哪里看到过那块"
+                                NewList.length > 0
+                                    ? NewList[0]?.noticeTitle
                                     : "${S.of(context).mc_ptgg_empty}",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

@@ -48,8 +48,9 @@ class _LoginPageState extends State<LoginPage>
   final FocusNode _nodeText2 = FocusNode();
   TapGestureRecognizer tapGest = TapGestureRecognizer();
   bool _clickable = false;
+  var provider;
   //privide
-  UserInfoPrivider provider = UserInfoPrivider();
+  // UserInfoPrivider provider = UserInfoPrivider();
 
   @override
   Map<ChangeNotifier, List<VoidCallback>> changeNotifier() {
@@ -103,20 +104,19 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void setLoginResponse(token) {
-    print("登录成功${token}");
     NavigatorUtils.push(context, HomeRouter.homePage, replace: true);
-
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      provider.updateUserInfo(token);
-    });
+    provider.updateUserInfo(token);
+    Future.delayed(const Duration(milliseconds: 2000), () {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => provider,
-      child: _pageHone(),
-    );
+    provider = context.watch<UserInfoPrivider>();
+    return _pageHone();
+    // ChangeNotifierProvider(
+    //   create: (_) => provider,
+    //   child: _pageHone(),
+    // );
   }
 
   Widget _pageHone() {

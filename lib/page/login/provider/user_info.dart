@@ -6,10 +6,10 @@ import 'package:zjsb_app/http/models/user_info.dart';
 import 'package:zjsb_app/http/api.dart';
 
 class UserInfoPrivider extends ChangeNotifier {
-  var userInfo = null;
+  Data userInfo;
 
   updateUserInfo(token) async {
-    var data =
+    Data data =
         await loginRec.userInfo(token ?? SpUtil.getString(Constant.token));
     userInfo = data;
     notifyListeners();

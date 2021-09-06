@@ -36,6 +36,8 @@ import 'package:zjsb_app/http/http_utils.dart';
 
 import 'package:zjsb_app/util/toast.dart';
 
+import 'package:zjsb_app/page/login/provider/user_info.dart';
+
 Future<void> main() async {
 //  debugProfileBuildsEnabled = true;
 //  debugPaintLayerBordersEnabled = true;
@@ -135,12 +137,14 @@ class MyApp extends StatelessWidget {
     final Widget app = MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider())
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => UserInfoPrivider())
       ],
-      child: Consumer2<ThemeProvider, LocaleProvider>(
-        builder:
-            (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
-          return _buildMaterialApp(context, provider, localeProvider);
+      child: Consumer3<ThemeProvider, LocaleProvider, UserInfoPrivider>(
+        builder: (_, ThemeProvider provider, LocaleProvider localeProvider,
+            UserInfoPrivider userInfoPrivider, __) {
+          return _buildMaterialApp(
+              context, provider, localeProvider, userInfoPrivider);
         },
       ),
     );
@@ -156,7 +160,7 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _buildMaterialApp(BuildContext context, ThemeProvider provider,
-      LocaleProvider localeProvider) {
+      LocaleProvider localeProvider, UserInfoPrivider userInfoPrivider) {
     final easyload = EasyLoading.init();
     EasyLoading.instance..userInteractions = false; //loading 禁止操作
     return ScreenUtilInit(

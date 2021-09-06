@@ -10,7 +10,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:zjsb_app/common/provider/theme_provider.dart';
 import 'package:zjsb_app/generated/l10n.dart';
 import 'package:zjsb_app/http/models/home_list.dart';
-import 'package:zjsb_app/http/models/user_info.dart';
+import 'package:zjsb_app/http/models/user_info.dart' as UserInfoModels;
 import 'package:zjsb_app/mvp/base_page.dart';
 import 'package:zjsb_app/page/home/iview/home_iview.dart';
 import 'package:zjsb_app/page/home/models/app_update_entity.dart';
@@ -54,7 +54,7 @@ class Home extends StatefulWidget {
     "https://img1.baidu.com/it/u=1575169871,3281166747&fm=26&fmt=auto&gp=0.jpg"
   ];
 
-  List<String> textList = ["关于xx类产品价格的通知", "比特币大涨", "比特币大跌！！"];
+  List<String> textList = ["暂无消息"];
 
   @override
   _HomeState createState() => _HomeState();
@@ -66,10 +66,23 @@ class _HomeState extends State<Home>
         SingleTickerProviderStateMixin,
         AutomaticKeepAliveClientMixin
     implements HomeIMvpView {
+  //var
   TabController _tabController;
   final PageController _pageController = PageController(initialPage: 0);
+  var newObj;
+  List<String> newList = [];
   //HomeProvider provider = HomeProvider();
-  UserInfoPrivider provider = UserInfoPrivider();
+  // UserInfoPrivider provider = UserInfoPrivider();
+
+  //methods
+
+  void getHomeNewest() async {
+    var newData = await homePage.getHomeNewest();
+    setState(() {
+      newObj = newData;
+      newList = [newData.noticeTitle];
+    });
+  }
 
   @override
   // ignore: todo
@@ -81,7 +94,7 @@ class _HomeState extends State<Home>
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
 
-    //presenter.getDeviceList('1');
+    getHomeNewest();
 
     ///注册原生方法回调
     nativeMessageListener();
@@ -99,178 +112,192 @@ class _HomeState extends State<Home>
     String tab2 = S.of(context).hm_tab2;
     String tab3 = S.of(context).hm_tab3;
 
-    return ChangeNotifierProvider(
-      create: (_) => provider,
-      child: Scaffold(
-        body: Container(
-          color: ColorUtils.getWhiteBgColor(context),
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                //用户信息
-                SliverAppBar(
-                  floating: true,
-                  pinned: true,
-                  title: Row(
+    var userInfo = context.select<UserInfoPrivider, UserInfoModels.Data>(
+      (UserInfo) => UserInfo.userInfo,
+    );
+
+    return Scaffold(
+      body: Container(
+        color: ColorUtils.getWhiteBgColor(context),
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              //用户信息
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                title: Row(
+                  children: [
+                    ClipOval(
+                        child: PInfoImage(
+                      url: userInfo != null
+                          ? userInfo?.headUrl
+                          : "icon_uesr_default",
+                      size: ScreenUtil().setSp(28),
+                    )),
+                    Gaps.hGap5,
+                    Text(userInfo != null ? "${userInfo?.nick}" : "未登录")
+                        .fontSize(ScreenUtil().setSp(14))
+                        .textColor(ColorUtils.getThemeColor()),
+                    // Consumer<UserInfoPrivider>(
+                    //   builder: (context, userinfo, child) {
+                    //     return Text(userinfo.userInfo != null
+                    //             ? "${userinfo?.nick}"
+                    //             : "未登录")
+                    //         .fontSize(ScreenUtil().setSp(14))
+                    //         .textColor(ColorUtils.getThemeColor());
+                    //   },
+                    // ),
+                  ],
+                ),
+                actions: <Widget>[
+                  new IconButton(
+                    icon: ImageIcon(ImageUtils.getAssetImage("home_message"),
+                        size: ScreenUtil().setSp(20), color: Colors.black),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageCenter(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              //跑马灯轮播图
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                  child: Column(
                     children: [
-                      // InkWell(
-                      //   onTap: () {
-                      //     provider.updateUserInfo(null);
-                      //   },
-                      //   child: Text('data'),
-                      // ),
-                      ClipOval(
-                          child: PInfoImage(
-                        url: "icon_uesr_default",
-                        size: ScreenUtil().setSp(28),
-                      )),
-                      Gaps.hGap5,
-                      Consumer<UserInfoPrivider>(
-                        builder: (context, userinfo, child) {
-                          return Text(userinfo.userInfo != null
-                                  ? "${userinfo.userInfo?.nick}"
-                                  : "未登录")
-                              .fontSize(ScreenUtil().setSp(14))
-                              .textColor(ColorUtils.getThemeColor());
-                        },
+                      SwiperWidget(
+                        widget.swiperList,
+                        radius: 0,
+                        height: ScreenUtil().setHeight(130),
+                      ),
+                      Row(
+                        children: [
+                          LoadImage(
+                            "home_hint",
+                            width: ScreenUtil().setWidth(26),
+                            height: ScreenUtil().setHeight(26),
+                          ),
+                          Container(
+                            alignment: Alignment(-1, 0),
+                            height: ScreenUtil().setHeight(34),
+                            child: InkWell(
+                                onTap: () {},
+                                child: Text(
+                                  newObj != null
+                                      ? newObj?.noticeTitle
+                                      : S.of(context).home_zwxx,
+                                  style: TextStyle(fontSize: 13.sp),
+                                )),
+                          ),
+                          // Container(
+                          //   height: ScreenUtil().setHeight(34),
+                          //   child: FlutterMarquee(
+                          //       texts: newList.length == 0
+                          //           ? widget.textList
+                          //           : newList,
+                          //       textSize: ScreenUtil().setSp(12),
+                          //       autoStart: false,
+                          //       //textColor: Colors.red,
+                          //       //seletedTextColor:ColorUtils.getThemeColor(),
+                          //       onChange: (i) {
+                          //         print("按倒了消息$i");
+                          //       },
+                          //       duration: 5),
+                          // ),
+                        ],
                       ),
                     ],
                   ),
-                  actions: <Widget>[
-                    new IconButton(
-                      icon: ImageIcon(ImageUtils.getAssetImage("home_message"),
-                          size: ScreenUtil().setSp(20), color: Colors.black),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MessageCenter(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
                 ),
-                //跑马灯轮播图
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    child: Column(
-                      children: [
-                        SwiperWidget(
-                          widget.swiperList,
-                          radius: 0,
-                          height: ScreenUtil().setHeight(130),
-                        ),
-                        Row(
-                          children: [
-                            LoadImage(
-                              "home_hint",
-                              width: ScreenUtil().setWidth(24),
-                              height: ScreenUtil().setHeight(24),
-                            ),
-                            Container(
-                              height: ScreenUtil().setHeight(34),
-                              child: FlutterMarquee(
-                                  texts: widget.textList,
-                                  textSize: ScreenUtil().setSp(12),
-                                  //textColor: Colors.red,
-                                  //seletedTextColor:ColorUtils.getThemeColor(),
-                                  onChange: (i) {
-                                    print("按倒了消息$i");
-                                  },
-                                  duration: 5),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+              ),
+              //灰色间隔
+              SliverToBoxAdapter(
+                child: Container(
+                  height: ScreenUtil().setHeight(12),
+                  color: ColorUtils.getGrayWhiteBgColor(context),
+                ),
+              ),
+              //分布存储
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Gaps.vGap8,
+                      Text(S.of(context).hm_title1)
+                          .fontSize(ScreenUtil().setSp(16))
+                          .bold()
+                          .textColor(ColorUtils.get2828Color(context)),
+                    ],
                   ),
                 ),
-                //灰色间隔
-                SliverToBoxAdapter(
-                  child: Container(
-                    height: ScreenUtil().setHeight(12),
-                    color: ColorUtils.getGrayWhiteBgColor(context),
-                  ),
-                ),
-                //分布存储
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Gaps.vGap8,
-                        Text(S.of(context).hm_title1)
-                            .fontSize(ScreenUtil().setSp(16))
-                            .bold()
-                            .textColor(ColorUtils.get2828Color(context)),
-                      ],
-                    ),
-                  ),
-                ),
-                //标签选择
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    child: Center(
-                      child: Container(
-                        height: ScreenUtil().setHeight(32),
-                        decoration: BoxDecoration(
-                          color: ColorUtils.getGrayWhiteBgColor(context),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
-                        ),
-                        child: TabBar(
-                          key: UniqueKey(),
-                          onTap: (index) {
-                            _pageController.jumpToPage(index);
-                          },
-                          isScrollable: false,
-                          controller: _tabController,
-                          labelStyle: TextStyles.textBold14,
-                          //选中背景和下划线不能同时存在
-                          indicator: CustomRRecTabIndicator(
-                            radius: 4,
-                            color: ColorUtils.getThemeColor(),
+              ),
+              //标签选择
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                  child: Center(
+                    child: Container(
+                      height: ScreenUtil().setHeight(32),
+                      decoration: BoxDecoration(
+                        color: ColorUtils.getGrayWhiteBgColor(context),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4.0)),
+                      ),
+                      child: TabBar(
+                        key: UniqueKey(),
+                        onTap: (index) {
+                          _pageController.jumpToPage(index);
+                        },
+                        isScrollable: false,
+                        controller: _tabController,
+                        labelStyle: TextStyles.textBold14,
+                        //选中背景和下划线不能同时存在
+                        indicator: CustomRRecTabIndicator(
+                          radius: 4,
+                          color: ColorUtils.getThemeColor(),
 
-                            //color: Colors.white,
-                          ),
-                          indicatorSize: TabBarIndicatorSize.label,
-                          indicatorPadding: EdgeInsets.all(3.w),
-                          labelPadding: EdgeInsets.zero,
-                          unselectedLabelColor: Colours.dark_text,
-                          labelColor: Colors.white,
-                          // indicatorPadding:,
-                          tabs: <Widget>[
-                            TabView(tab1),
-                            TabView(tab2),
-                            TabView(tab3),
-                          ],
+                          //color: Colors.white,
                         ),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorPadding: EdgeInsets.all(3.w),
+                        labelPadding: EdgeInsets.zero,
+                        unselectedLabelColor: Colours.dark_text,
+                        labelColor: Colors.white,
+                        // indicatorPadding:,
+                        tabs: <Widget>[
+                          TabView(tab1),
+                          TabView(tab2),
+                          TabView(tab3),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ];
-            },
-            body: Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w),
-              child: Container(
-                child: PageView(
-                  controller: _pageController,
-                  children: <Widget>[
-                    HomeListPage(1),
-                    HomeListPage(2),
-                    HomeListPage(3),
-                  ],
-                  onPageChanged: (index) {
-                    _tabController.animateTo(index);
-                  },
-                ),
+              ),
+            ];
+          },
+          body: Padding(
+            padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w),
+            child: Container(
+              child: PageView(
+                controller: _pageController,
+                children: <Widget>[
+                  HomeListPage(1),
+                  HomeListPage(2),
+                  HomeListPage(3),
+                ],
+                onPageChanged: (index) {
+                  _tabController.animateTo(index);
+                },
               ),
             ),
           ),

@@ -6,7 +6,7 @@ part of 'login.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Login _$loginFromJson(Map<String, dynamic> json) {
+Login _$LoginFromJson(Map<String, dynamic> json) {
   return Login(
     json['code'] as int,
     json['token'] as String,
@@ -14,7 +14,7 @@ Login _$loginFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$loginToJson(Login instance) => <String, dynamic>{
+Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
       'code': instance.code,
       'token': instance.token,
       'msg': instance.msg,

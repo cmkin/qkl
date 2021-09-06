@@ -12,6 +12,8 @@ import 'package:sp_util/sp_util.dart';
 import 'package:zjsb_app/http/models/home_list.dart';
 import 'package:zjsb_app/http/models/login.dart';
 import 'package:zjsb_app/http/models/user_info.dart';
+import 'package:zjsb_app/http/models/home_new.dart';
+import 'package:zjsb_app/http/models/all_newest.dart';
 
 //请求成功---自定义错误提示处理
 class _onError {
@@ -66,7 +68,7 @@ class loginRec {
     final String url = '/user/user/findById?token=$token';
     try {
       final response = await HttpUtils.get(url);
-      var res = UserInfo.fromJson(response);
+      UserInfo res = UserInfo.fromJson(response);
       //请求成功
       if (res.code == Constant.successCode) {
         //200
@@ -86,14 +88,60 @@ class loginRec {
 
 class homePage {
   //设备列表
-
   static getDeviceList(int groupId) async {
     final langId = await _langId.getId();
-    final String url = "/product/list?groupId=$groupId&langId=$langId";
+    final String url = "/product/list?groupId=$groupId";
 
     try {
       final response = await HttpUtils.get(url);
       var res = homeList.fromJson(response);
+      //请求成功
+      if (res.code == Constant.successCode) {
+        //200
+        return res.data;
+      } else {
+        //其他错误提示
+        _onError(res.code);
+        return [];
+      }
+    } on DioError catch (e) {
+      return e.error;
+    }
+  }
+
+  //首页-最新消息
+  static getHomeNewest() async {
+    final langId = await _langId.getId();
+    final String url = "/notice/newest";
+
+    try {
+      final response = await HttpUtils.get(url);
+      var res = HomeNew.fromJson(response);
+      //请求成功
+      if (res.code == Constant.successCode) {
+        //200
+        return res.data;
+      } else {
+        //其他错误提示
+        _onError(res.code);
+        return {};
+      }
+    } on DioError catch (e) {
+      return e.error;
+    }
+  }
+}
+
+//////////////消息列表///////////////
+
+class MessagePage {
+  //平台公告
+  static getAllNewest() async {
+    final String url = "/notice/list";
+
+    try {
+      final response = await HttpUtils.get(url);
+      var res = AllNewest.fromJson(response);
       //请求成功
       if (res.code == Constant.successCode) {
         //200

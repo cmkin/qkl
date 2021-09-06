@@ -20,9 +20,9 @@ class UserInfo extends Object {
   );
 
   factory UserInfo.fromJson(Map<String, dynamic> srcJson) =>
-      _$userInfoFromJson(srcJson);
+      _$UserInfoFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$userInfoToJson(this);
+  Map<String, dynamic> toJson() => _$UserInfoToJson(this);
 }
 
 @JsonSerializable()

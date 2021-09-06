@@ -75,7 +75,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     Widget action = actionName.isNotEmpty
         ? Positioned(
             right: 0.0,
-            top: 8.w,
+            top: 0.w,
             child: Theme(
               data: Theme.of(context).copyWith(
                 buttonTheme: ButtonThemeData(
@@ -150,8 +150,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               isShowDivider
                   ? Container(
                       width: double.infinity,
-                      height: 0.5,
-                      color: ColorUtils.getLineBgColor(context),
+                      height: 1.w,
+                      color: Colours
+                          .gray_white_color, //ColorUtils.getLineBgColor(context),
                     )
                   : Gaps.empty,
             ],
@@ -162,5 +163,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(50.w);
+  Size get preferredSize => Size.fromHeight(51.w);
 }

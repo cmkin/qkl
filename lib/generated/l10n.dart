@@ -2334,6 +2334,16 @@ class S {
       args: [],
     );
   }
+
+  /// `暂无消息`
+  String get home_zwxx {
+    return Intl.message(
+      '暂无消息',
+      name: 'home_zwxx',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

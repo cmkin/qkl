@@ -11,6 +11,9 @@ import 'package:zjsb_app/widgets/my_app_bar.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zjsb_app/widgets/webview/web_title_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zjsb_app/http/api.dart';
+import 'package:zjsb_app/http/models/all_newest.dart';
+import 'package:intl/intl.dart';
 
 class AppMessagePage extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class AppMessagePage extends StatefulWidget {
 }
 
 class _MessageCenterState extends State<AppMessagePage> {
+  //var
   List<String> _listData = [
     "a",
     "a",
@@ -34,9 +38,27 @@ class _MessageCenterState extends State<AppMessagePage> {
 
   int _page = 1;
 
+  List NewList = [];
+
+  //methods
+
+  void getNewest() async {
+    var data = await MessagePage.getAllNewest();
+    setState(() {
+      NewList = data.map((item) {
+        String creatTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .format(DateTime.fromMillisecondsSinceEpoch(item.time));
+        item.creatTime = creatTime;
+
+        return item;
+      }).toList();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getNewest();
     _controller = EasyRefreshController();
   }
 
@@ -86,7 +108,7 @@ class _MessageCenterState extends State<AppMessagePage> {
       child: _cellList(),
       onRefresh: _onRefresh,
       onLoad: _loadMore,
-      emptyWidget: _listData.length == 0
+      emptyWidget: NewList.length == 0
           ? DataEmpty("${S.of(context).mc_ptgg_empty}")
           : null,
     );
@@ -94,8 +116,9 @@ class _MessageCenterState extends State<AppMessagePage> {
 
   Widget _cellList() {
     return ListView.separated(
-      itemCount: _listData.length,
+      itemCount: NewList.length,
       itemBuilder: (context, index) {
+        var item = NewList[index];
         return Material(
           //背景
           color: ColorUtils.getWhiteBgColor(context),
@@ -107,17 +130,17 @@ class _MessageCenterState extends State<AppMessagePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("关于xx类产品介个上调的通知")
+                    Text(item.noticeTitle)
                         .fontSize(14.sp)
                         .textColor(ColorUtils.get2828Color(context))
                         .fontWeight(FontWeight.w600),
                     Gaps.vGap5,
-                    Text("2021-06-06 15:30:00")
+                    Text(item.creatTime)
                         .textColor(Colours.text_gray)
                         .fontSize(10.sp),
                     Gaps.vGap10,
                     Text(
-                      "阿桑的歌康拉德立刻改口了档案里快递给你爱的路过那里看过那可怜的给哪里看到过那块阿桑的歌康拉德立刻改口了档案里快递给你爱的路过那里看过那可怜的给哪里看到过那块",
+                      item.content,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ).textColor(Colours.dark_text_gray).fontSize(12.sp),

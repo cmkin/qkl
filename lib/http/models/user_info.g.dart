@@ -6,7 +6,7 @@ part of 'user_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserInfo _$userInfoFromJson(Map<String, dynamic> json) {
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
   return UserInfo(
     json['code'] as int,
     Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -14,7 +14,7 @@ UserInfo _$userInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$userInfoToJson(UserInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'code': instance.code,
       'data': instance.data,
       'msg': instance.msg,

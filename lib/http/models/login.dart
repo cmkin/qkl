@@ -20,7 +20,7 @@ class Login extends Object {
   );
 
   factory Login.fromJson(Map<String, dynamic> srcJson) =>
-      _$loginFromJson(srcJson);
+      _$LoginFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$loginToJson(this);
+  Map<String, dynamic> toJson() => _$LoginToJson(this);
 }

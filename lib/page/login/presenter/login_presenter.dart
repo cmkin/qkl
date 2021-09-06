@@ -44,9 +44,6 @@ class LoginPagePresenter extends BasePagePresenter<LoginIMvpView> {
     var token = await loginRec.login(request.username, request.password);
     if (token != false) {
       SpUtil.putString(Constant.token, token);
-
-      var data = await loginRec.userInfo(token);
-      SpUtil.putString(Constant.token, token);
       Toast.loading(type: 100);
       Toast.loading(type: 2, msg: S().login_succ + '!');
       view.setLoginResponse(token);

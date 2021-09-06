@@ -114,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hm_tab_sjsj" : MessageLookupByLibrary.simpleMessage("Launch time"),
     "hm_title" : MessageLookupByLibrary.simpleMessage("Home"),
     "hm_title1" : MessageLookupByLibrary.simpleMessage("Distributed storage devices"),
+    "home_zwxx" : MessageLookupByLibrary.simpleMessage("暂无消息"),
     "kf_text1" : MessageLookupByLibrary.simpleMessage("Add bitx cloud storage wechat customer service"),
     "kf_text2" : MessageLookupByLibrary.simpleMessage("If you have any questions, please scan QR code and add wechat customer service for any time. Thank you"),
     "login_cloud_storage" : MessageLookupByLibrary.simpleMessage("Cloud storage"),

@@ -114,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hm_tab_sjsj" : MessageLookupByLibrary.simpleMessage("上架时间"),
     "hm_title" : MessageLookupByLibrary.simpleMessage("首页"),
     "hm_title1" : MessageLookupByLibrary.simpleMessage("分布存储"),
+    "home_zwxx" : MessageLookupByLibrary.simpleMessage("暂无消息"),
     "kf_text1" : MessageLookupByLibrary.simpleMessage("添加BITX云储微信客服"),
     "kf_text2" : MessageLookupByLibrary.simpleMessage("如有疑问，请扫描二维码添加微信客服随时咨询，谢谢"),
     "login_cloud_storage" : MessageLookupByLibrary.simpleMessage("云储"),
