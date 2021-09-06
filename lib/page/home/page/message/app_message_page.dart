@@ -14,13 +14,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zjsb_app/http/api.dart';
 import 'package:zjsb_app/http/models/all_newest.dart';
 import 'package:intl/intl.dart';
+import 'package:zjsb_app/page/home/page/message/app_message_detail.dart';
 
 class AppMessagePage extends StatefulWidget {
   @override
   _MessageCenterState createState() => _MessageCenterState();
 }
 
-class _MessageCenterState extends State<AppMessagePage> {
+class _MessageCenterState extends State<AppMessagePage>
+    with AutomaticKeepAliveClientMixin {
   //var
   List<String> _listData = [
     "a",
@@ -83,8 +85,8 @@ class _MessageCenterState extends State<AppMessagePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  //页面
+  Widget _pageUi() {
     return Scaffold(
       backgroundColor: ColorUtils.getWhiteBgColor(context),
       appBar: MyAppBar(
@@ -98,6 +100,11 @@ class _MessageCenterState extends State<AppMessagePage> {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _pageUi();
   }
 
   Widget _refresh() {
@@ -151,8 +158,8 @@ class _MessageCenterState extends State<AppMessagePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WebTitlePage(
-                        "http://www.baidu.com", "${S.of(context).mc_ptgg}"),
+                    builder: (context) => AppMessageDetail(item: item),
+                    //WebTitlePage("http://www.baidu.com", "${S.of(context).mc_ptgg}")
                   ),
                 );
               },
@@ -165,4 +172,8 @@ class _MessageCenterState extends State<AppMessagePage> {
       },
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

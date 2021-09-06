@@ -229,7 +229,14 @@
   "wat_zhye":"账户余额USDT",
   "wat_ktxje":"可提现金额",
   "login_succ":"登录成功",
-  "home_zwxx":"暂无消息"
+  "home_zwxx":"暂无消息",
+  "message_ggxq":"公告详情",
+  "date_year":"年",
+  "date_mon":"月",
+  "date_day":"日",
+  "date_hou":"时",
+  "date_min":"分",
+  "date_sec":"秒"
 
 
 

@@ -15,6 +15,7 @@ import 'package:zjsb_app/mvp/base_page.dart';
 import 'package:zjsb_app/page/home/iview/home_iview.dart';
 import 'package:zjsb_app/page/home/models/app_update_entity.dart';
 import 'package:zjsb_app/page/home/models/test_entity.dart';
+import 'package:zjsb_app/page/home/page/message/app_message_detail.dart';
 import 'package:zjsb_app/page/home/page/message/message_center_page.dart';
 import 'package:zjsb_app/page/home/presenter/home_presenter.dart';
 import 'package:zjsb_app/page/home/provider/home_provider.dart';
@@ -42,7 +43,7 @@ import 'package:zjsb_app/mvp/net/http_api.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 
 import 'package:zjsb_app/http/api.dart';
-
+import 'package:intl/intl.dart';
 import 'package:zjsb_app/util/console.dart';
 
 // ignore: must_be_immutable
@@ -78,6 +79,10 @@ class _HomeState extends State<Home>
 
   void getHomeNewest() async {
     var newData = await homePage.getHomeNewest();
+    String creatTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(DateTime.fromMillisecondsSinceEpoch(newData.time));
+    newData.creatTime = creatTime;
+    //newData.creatTime = creatTime;
     setState(() {
       newObj = newData;
       newList = [newData.noticeTitle];
@@ -187,7 +192,16 @@ class _HomeState extends State<Home>
                             alignment: Alignment(-1, 0),
                             height: ScreenUtil().setHeight(34),
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AppMessageDetail(item: newObj),
+                                      //WebTitlePage("http://www.baidu.com", "${S.of(context).mc_ptgg}")
+                                    ),
+                                  );
+                                },
                                 child: Text(
                                   newObj != null
                                       ? newObj?.noticeTitle

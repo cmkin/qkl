@@ -218,7 +218,6 @@
   "choose_language": "Choose language",
   "scan_title": "Scan",
   "scan_photo": "Photo",
-
   "dvc_title": "Device",
   "dvc_gl":"Device management",
   "dvc_sys":"Profit",
@@ -226,12 +225,18 @@
   "mi_qb":"Wallet",
   "dvc_ccsy":"Output income",
   "dvc_zrsy":"Yesterday's earnings",
-
   "wat_wdqb":"Wallet",
   "wat_zhye":"Account balance USDT",
   "wat_ktxje":"Withdrawal amount",
   "login_succ":"登录成功",
-  "home_zwxx":"暂无消息"
+  "home_zwxx":"暂无消息",
+  "message_ggxq":"公告详情",
+  "date_year":"年",
+  "date_mon":"月",
+  "date_day":"日",
+  "date_hou":"时",
+  "date_min":"分",
+  "date_sec":"秒"
 
 
 

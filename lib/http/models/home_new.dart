@@ -1,11 +1,9 @@
-import 'package:json_annotation/json_annotation.dart'; 
-  
+import 'package:json_annotation/json_annotation.dart';
+
 part 'home_new.g.dart';
 
-
 @JsonSerializable()
-  class HomeNew extends Object {
-
+class HomeNew extends Object {
   @JsonKey(name: 'msg')
   String msg;
 
@@ -15,18 +13,20 @@ part 'home_new.g.dart';
   @JsonKey(name: 'data')
   Data data;
 
-  HomeNew(this.msg,this.code,this.data,);
+  HomeNew(
+    this.msg,
+    this.code,
+    this.data,
+  );
 
-  factory HomeNew.fromJson(Map<String, dynamic> srcJson) => _$HomeNewFromJson(srcJson);
+  factory HomeNew.fromJson(Map<String, dynamic> srcJson) =>
+      _$HomeNewFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$HomeNewToJson(this);
-
 }
 
-  
 @JsonSerializable()
-  class Data extends Object {
-
+class Data extends Object {
   @JsonKey(name: 'noticeId')
   int noticeId;
 
@@ -48,12 +48,22 @@ part 'home_new.g.dart';
   @JsonKey(name: 'time')
   int time;
 
-  Data(this.noticeId,this.noticeTitle,this.content,this.start,this.end,this.status,this.time,);
+  @JsonKey(name: 'creatTime')
+  String creatTime;
 
-  factory Data.fromJson(Map<String, dynamic> srcJson) => _$DataFromJson(srcJson);
+  Data(
+    this.noticeId,
+    this.noticeTitle,
+    this.content,
+    this.start,
+    this.end,
+    this.status,
+    this.time,
+    String json,
+  );
+
+  factory Data.fromJson(Map<String, dynamic> srcJson) =>
+      _$DataFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
-
 }
-
-  

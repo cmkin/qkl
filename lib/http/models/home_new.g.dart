@@ -29,6 +29,7 @@ Data _$DataFromJson(Map<String, dynamic> json) {
     json['end'] as int,
     json['status'] as int,
     json['time'] as int,
+    json['creatTime'] as String,
   );
 }
 
@@ -40,4 +41,5 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'end': instance.end,
       'status': instance.status,
       'time': instance.time,
+      'creatTime': instance.creatTime,
     };

@@ -2344,6 +2344,76 @@ class S {
       args: [],
     );
   }
+
+  /// `公告详情`
+  String get message_ggxq {
+    return Intl.message(
+      '公告详情',
+      name: 'message_ggxq',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `年`
+  String get date_year {
+    return Intl.message(
+      '年',
+      name: 'date_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `月`
+  String get date_mon {
+    return Intl.message(
+      '月',
+      name: 'date_mon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `日`
+  String get date_day {
+    return Intl.message(
+      '日',
+      name: 'date_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `时`
+  String get date_hou {
+    return Intl.message(
+      '时',
+      name: 'date_hou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `分`
+  String get date_min {
+    return Intl.message(
+      '分',
+      name: 'date_min',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `秒`
+  String get date_sec {
+    return Intl.message(
+      '秒',
+      name: 'date_sec',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
