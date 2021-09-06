@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zjsb_app/generated/l10n.dart';
+import 'package:zjsb_app/http/models/home_list.dart';
 import 'package:zjsb_app/page/home/page/tab/tab_one_page.dart';
 import 'package:zjsb_app/page/home/page/tab/tab_three_page.dart';
 import 'package:zjsb_app/page/home/page/tab/tab_two_page.dart';
@@ -10,6 +11,8 @@ import 'package:zjsb_app/page/home/widget/my_linear_progress.dart';
 import 'package:zjsb_app/res/colors.dart';
 import 'package:zjsb_app/util/color_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:zjsb_app/http/api.dart';
 
 class HomeListPage extends StatefulWidget {
   const HomeListPage(this.from, {Key key}) : super(key: key);
@@ -20,17 +23,36 @@ class HomeListPage extends StatefulWidget {
 
 class _HomeListPageState extends State<HomeListPage>
     with AutomaticKeepAliveClientMixin {
+  //数据
+  List deviceList = [];
+
+  //接口请求
+
+  void getDeviceList(groupId) async {
+    var data = await homePage.getDeviceList(groupId);
+    setState(() {
+      deviceList = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getDeviceList(widget.from);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MediaQuery.removePadding(
       removeTop: true,
       context: context,
       child: Container(
-        child: false
+        child: deviceList.length == 0
             ? PKCardListSkeleton(
                 isCircularImage: true,
                 isBottomLinesActive: true,
-                length: 2,
+                length: 3,
               )
             : ListView.separated(
                 separatorBuilder: (BuildContext context, int index) =>
@@ -38,8 +60,10 @@ class _HomeListPageState extends State<HomeListPage>
                   height: 10.h,
                   color: ColorUtils.getWhiteBgColor(context),
                 ),
-                itemCount: 20,
+                itemCount: deviceList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  var item = deviceList[index];
+
                   return Material(
                     child: Ink(
                       decoration: new BoxDecoration(
@@ -63,7 +87,7 @@ class _HomeListPageState extends State<HomeListPage>
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Text("存储服务器（分布式）A-1T")
+                                    child: Text(item.title)
                                         .fontSize(14.sp)
                                         .textColor(
                                             ColorUtils.get2828Color(context))
@@ -83,7 +107,7 @@ class _HomeListPageState extends State<HomeListPage>
                                 ],
                               ),
                               //第二行
-                              Text("${S.of(context).hm_item_syfs} 200 ${S.of(context).dw_fen}")
+                              Text("${S.of(context).hm_item_syfs} ${item.amount} ${S.of(context).dw_fen}")
                                   .fontSize(11.sp)
                                   .textColor(Colours.dark_gray_text_color)
                                   .padding(top: 5, bottom: 3),
@@ -111,18 +135,18 @@ class _HomeListPageState extends State<HomeListPage>
                                 child: Row(
                                   children: [
                                     Expanded(
-                                        child: Text("600.79 USDT")
+                                        child: Text("${item.price} USDT")
                                             .fontSize(15.sp)
                                             .bold()
                                             .textColor(ColorUtils.get2828Color(
                                                 context))),
-                                    Text("540${S.of(context).dw_tian}+540${S.of(context).dw_tian}")
+                                    Text("${item.period}${S.of(context).dw_tian}+${item.periodExtra}${S.of(context).dw_tian}")
                                         .fontSize(11.sp)
                                         .textColor(Colours.gray_text_color)
                                   ],
                                 ),
                               ),
-                              Text("≈3899 CNY")
+                              Text("≈${item.price * 6.4215} CNY")
                                   .fontSize(11.sp)
                                   .textColor(Colours.dark_gray_text_color)
                                   .padding(top: 3, bottom: 3),
@@ -143,7 +167,7 @@ class _HomeListPageState extends State<HomeListPage>
                                   children: [
                                     Expanded(
                                       child: Text(
-                                              "${S.of(context).hm_item_jfq}  3${S.of(context).dw_tian}")
+                                              "${S.of(context).hm_item_jfq}  ${item.delivery}${S.of(context).dw_tian}")
                                           .fontSize(13.sp)
                                           .textColor(Colours.gray_text_color),
                                     ),

@@ -35,7 +35,6 @@ class HttpUtils {
     String cacheKey,
     bool cacheDisk = false,
   }) async {
-    print('http');
     return await Http().get(
       path,
       params: params,

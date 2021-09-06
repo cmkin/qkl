@@ -41,7 +41,7 @@ class _MessageCenterState extends State<MessageCenter> {
                 splashColor: Colours.click_color,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 12.w, right: 12.w, top: 24.w, bottom: 8.w),
+                      left: 12.w, right: 12.w, top: 24.w, bottom: 8),
                   child: Row(
                     children: [
                       //消息个数
@@ -64,7 +64,7 @@ class _MessageCenterState extends State<MessageCenter> {
                                     right: 0,
                                     top: 0,
                                     child: Container(
-                                      padding: EdgeInsets.all(2.w),
+                                      padding: EdgeInsets.all(2),
                                       decoration: BoxDecoration(
                                           color: Colors.red,
                                           shape: BoxShape.circle),
@@ -136,7 +136,7 @@ class _MessageCenterState extends State<MessageCenter> {
                 splashColor: Colours.click_color,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 12.w, right: 12.w, top: 24.w, bottom: 8.w),
+                      left: 12.w, right: 12.w, top: 24.w, bottom: 8),
                   child: Row(
                     children: [
                       //消息个数
@@ -159,7 +159,7 @@ class _MessageCenterState extends State<MessageCenter> {
                                     right: 0,
                                     top: 0,
                                     child: Container(
-                                      padding: EdgeInsets.all(2.w),
+                                      padding: EdgeInsets.all(2),
                                       decoration: BoxDecoration(
                                           color: Colors.red,
                                           shape: BoxShape.circle),

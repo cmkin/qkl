@@ -12,6 +12,7 @@ import 'cache.dart';
 import 'connectivity_request_retrier.dart';
 import 'error_interceptor.dart';
 import 'global.dart';
+import 'log.dart';
 
 class Http {
   ///超时时间
@@ -39,7 +40,7 @@ class Http {
       // 添加拦截器
       dio.interceptors.add(ErrorInterceptor());
       // 加内存缓存
-      dio.interceptors.add(NetCacheInterceptor());
+      // dio.interceptors.add(NetCacheInterceptor());
       if (Global.retryEnable) {
         dio.interceptors.add(
           RetryOnConnectionChangeInterceptor(
@@ -50,7 +51,8 @@ class Http {
           ),
         );
       }
-      dio.interceptors.add(LogInterceptor());
+      //请求日志
+      dio.interceptors.add(Log());
 
       // 在调试模式下需要抓包调试，所以我们使用代理，并禁用HTTPS证书校验
       if (PROXY_ENABLE) {
@@ -66,6 +68,8 @@ class Http {
       }
     }
   }
+
+  get debug => null;
 
   ///初始化公共属性
   ///
@@ -128,7 +132,6 @@ class Http {
     String cacheKey,
     bool cacheDisk = false,
   }) async {
-    print('Futureget');
     Options requestOptions = options ?? Options();
     requestOptions = requestOptions.copyWith(extra: {
       "refresh": refresh,
@@ -142,13 +145,10 @@ class Http {
     }
     Response response;
 
-    print('dio $path $params');
     response = await dio.get(path,
         queryParameters: params,
         options: requestOptions,
         cancelToken: cancelToken ?? _cancelToken);
-    print(123);
-    print(response);
     return response.data;
   }
 

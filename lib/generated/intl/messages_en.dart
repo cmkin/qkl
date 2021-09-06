@@ -133,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "login_set_pwd" : MessageLookupByLibrary.simpleMessage("Please set login password"),
     "login_sign_in" : MessageLookupByLibrary.simpleMessage("Sign in"),
     "login_sryqm" : MessageLookupByLibrary.simpleMessage("Enter invitation code"),
+    "login_succ" : MessageLookupByLibrary.simpleMessage("登录成功"),
     "login_tis" : MessageLookupByLibrary.simpleMessage("Modification succeeded. Please log in again"),
     "login_transaction_pwd" : MessageLookupByLibrary.simpleMessage("Please set the transaction password"),
     "login_user_agreemnet" : MessageLookupByLibrary.simpleMessage("Cloud storage user agreement"),

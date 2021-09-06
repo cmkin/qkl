@@ -133,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "login_set_pwd" : MessageLookupByLibrary.simpleMessage("请设置登录密码"),
     "login_sign_in" : MessageLookupByLibrary.simpleMessage("登录"),
     "login_sryqm" : MessageLookupByLibrary.simpleMessage("输入邀请码"),
+    "login_succ" : MessageLookupByLibrary.simpleMessage("登录成功"),
     "login_tis" : MessageLookupByLibrary.simpleMessage("修改成功，请重新登录"),
     "login_transaction_pwd" : MessageLookupByLibrary.simpleMessage("请设置交易密码"),
     "login_user_agreemnet" : MessageLookupByLibrary.simpleMessage("云储用户协议"),

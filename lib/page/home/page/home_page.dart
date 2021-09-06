@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zjsb_app/common/provider/theme_provider.dart';
 import 'package:zjsb_app/generated/l10n.dart';
+import 'package:zjsb_app/http/models/home_list.dart';
+import 'package:zjsb_app/http/models/user_info.dart';
 import 'package:zjsb_app/mvp/base_page.dart';
 import 'package:zjsb_app/page/home/iview/home_iview.dart';
 import 'package:zjsb_app/page/home/models/app_update_entity.dart';
@@ -16,6 +18,7 @@ import 'package:zjsb_app/page/home/models/test_entity.dart';
 import 'package:zjsb_app/page/home/page/message/message_center_page.dart';
 import 'package:zjsb_app/page/home/presenter/home_presenter.dart';
 import 'package:zjsb_app/page/home/provider/home_provider.dart';
+import 'package:zjsb_app/page/login/provider/user_info.dart';
 import 'package:zjsb_app/widgets/marguee/index.dart';
 import 'home_list_page.dart';
 import 'package:zjsb_app/util/image_utils.dart';
@@ -38,9 +41,9 @@ import 'package:zjsb_app/mvp/net/http_api.dart';
 
 import 'package:pk_skeleton/pk_skeleton.dart';
 
-import 'package:zjsb_app/http/api_response.dart';
 import 'package:zjsb_app/http/api.dart';
-import 'package:zjsb_app/models/category_entity.dart';
+
+import 'package:zjsb_app/util/console.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -65,7 +68,8 @@ class _HomeState extends State<Home>
     implements HomeIMvpView {
   TabController _tabController;
   final PageController _pageController = PageController(initialPage: 0);
-  HomeProvider provider = HomeProvider();
+  //HomeProvider provider = HomeProvider();
+  UserInfoPrivider provider = UserInfoPrivider();
 
   @override
   // ignore: todo
@@ -78,8 +82,6 @@ class _HomeState extends State<Home>
     _tabController = TabController(vsync: this, length: 3);
 
     //presenter.getDeviceList('1');
-
-    getCategories();
 
     ///注册原生方法回调
     nativeMessageListener();
@@ -112,15 +114,27 @@ class _HomeState extends State<Home>
                   pinned: true,
                   title: Row(
                     children: [
+                      // InkWell(
+                      //   onTap: () {
+                      //     provider.updateUserInfo(null);
+                      //   },
+                      //   child: Text('data'),
+                      // ),
                       ClipOval(
                           child: PInfoImage(
                         url: "icon_uesr_default",
                         size: ScreenUtil().setSp(28),
                       )),
                       Gaps.hGap5,
-                      Text("用户昵称")
-                          .fontSize(ScreenUtil().setSp(14))
-                          .textColor(ColorUtils.getThemeColor()),
+                      Consumer<UserInfoPrivider>(
+                        builder: (context, userinfo, child) {
+                          return Text(userinfo.userInfo != null
+                                  ? "${userinfo.userInfo?.nick}"
+                                  : "未登录")
+                              .fontSize(ScreenUtil().setSp(14))
+                              .textColor(ColorUtils.getThemeColor());
+                        },
+                      ),
                     ],
                   ),
                   actions: <Widget>[
@@ -301,12 +315,6 @@ class _HomeState extends State<Home>
 
   @override
   void setResponse(TestEntity entity) {
-    provider.setData(entity);
+    //provider.setData(entity);
   }
-}
-
-void getCategories() async {
-  print(GanRepository.getCategories);
-  ApiResponse<CategoryEntity> entity = await GanRepository.getCategories();
-  print(entity);
 }
