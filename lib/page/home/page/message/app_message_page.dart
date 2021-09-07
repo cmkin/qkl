@@ -9,6 +9,7 @@ import 'package:zjsb_app/widgets/data_empty.dart';
 import 'package:zjsb_app/widgets/load_image.dart';
 import 'package:zjsb_app/widgets/my_app_bar.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:zjsb_app/widgets/page_loading.dart';
 import 'package:zjsb_app/widgets/webview/web_title_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zjsb_app/http/api.dart';
@@ -41,6 +42,7 @@ class _MessageCenterState extends State<AppMessagePage>
   int _page = 1;
 
   List NewList = [];
+  bool _loading = true;
 
   //methods
 
@@ -54,6 +56,7 @@ class _MessageCenterState extends State<AppMessagePage>
 
         return item;
       }).toList();
+      _loading = false;
     });
   }
 
@@ -72,10 +75,7 @@ class _MessageCenterState extends State<AppMessagePage>
 
   // 下拉刷新
   Future _onRefresh({bool isShow = false}) async {
-    await Future.delayed(const Duration(seconds: 1), () {
-      _page = 1;
-      setState(() {});
-    });
+    await getNewest();
   }
 
   Future _loadMore() async {
@@ -96,7 +96,12 @@ class _MessageCenterState extends State<AppMessagePage>
       ),
       body: Column(
         children: [
-          Expanded(child: _refresh()),
+          Expanded(
+              child: _loading
+                  ? PageLoading(
+                      num: 3,
+                    )
+                  : _refresh()),
         ],
       ),
     );

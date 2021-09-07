@@ -104,9 +104,10 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void setLoginResponse(token) {
-    NavigatorUtils.push(context, HomeRouter.homePage, replace: true);
     provider.updateUserInfo(token);
-    Future.delayed(const Duration(milliseconds: 2000), () {});
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      NavigatorUtils.push(context, HomeRouter.homePage, replace: true);
+    });
   }
 
   @override

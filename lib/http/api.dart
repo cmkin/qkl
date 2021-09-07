@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:zjsb_app/common/common.dart';
 import 'package:zjsb_app/http/api_response.dart';
 import 'package:zjsb_app/http/http_utils.dart';
+import 'package:zjsb_app/http/models/device_list.dart';
+import 'package:zjsb_app/http/models/shop_detail.dart';
 import 'package:zjsb_app/util/toast.dart';
 import 'package:zjsb_app/common/common.dart';
 import 'package:sp_util/sp_util.dart';
@@ -45,42 +47,18 @@ class loginRec {
   //登录接口
   static login(String username, String password) async {
     final String url = '/user/login/login';
-    try {
-      final response = await HttpUtils.post(url,
-          data: {username: username, password: password});
-      var res = Login.fromJson(response);
-      //请求成功
-      if (res.code == Constant.successCode) {
-        //200
-        return res.token;
-      } else {
-        //其他错误提示
-        _onError(res.code);
-        return false;
-      }
-    } on DioError catch (e) {
-      return e.error;
-    }
+    final response = await HttpUtils.post(url,
+        data: {username: username, password: password});
+    var res = Login.fromJson(response);
+    return res.token;
   }
 
   //通过userid(token)查询用户
   static Future userInfo(String token) async {
     final String url = '/user/user/findById?token=$token';
-    try {
-      final response = await HttpUtils.get(url);
-      UserInfo res = UserInfo.fromJson(response);
-      //请求成功
-      if (res.code == Constant.successCode) {
-        //200
-        return res.data;
-      } else {
-        //其他错误提示
-        _onError(res.code);
-        return false;
-      }
-    } on DioError catch (e) {
-      return e.error;
-    }
+    final response = await HttpUtils.get(url);
+    UserInfo res = UserInfo.fromJson(response);
+    return res.data;
   }
 }
 
@@ -89,46 +67,26 @@ class loginRec {
 class homePage {
   //设备列表
   static getDeviceList(int groupId) async {
-    final langId = await _langId.getId();
     final String url = "/product/list?groupId=$groupId";
-
-    try {
-      final response = await HttpUtils.get(url);
-      var res = homeList.fromJson(response);
-      //请求成功
-      if (res.code == Constant.successCode) {
-        //200
-        return res.data;
-      } else {
-        //其他错误提示
-        _onError(res.code);
-        return [];
-      }
-    } on DioError catch (e) {
-      return e.error;
-    }
+    final response = await HttpUtils.get(url);
+    var res = homeList.fromJson(response);
+    return res.data;
   }
 
   //首页-最新消息
   static getHomeNewest() async {
-    final langId = await _langId.getId();
     final String url = "/notice/newest";
+    final response = await HttpUtils.get(url);
+    var res = HomeNew.fromJson(response);
+    return res.data;
+  }
 
-    try {
-      final response = await HttpUtils.get(url);
-      var res = HomeNew.fromJson(response);
-      //请求成功
-      if (res.code == Constant.successCode) {
-        //200
-        return res.data;
-      } else {
-        //其他错误提示
-        _onError(res.code);
-        return {};
-      }
-    } on DioError catch (e) {
-      return e.error;
-    }
+  //商品详情
+  static getShopDetail(int prodId) async {
+    final String url = "/product/info?prodId=$prodId";
+    final response = await HttpUtils.get(url);
+    var res = ShopDetail.fromJson(response);
+    return res.data;
   }
 }
 
@@ -138,21 +96,24 @@ class MessagePage {
   //平台公告
   static getAllNewest() async {
     final String url = "/notice/list";
+    final response = await HttpUtils.get(url);
+    var res = AllNewest.fromJson(response);
+    return res.data;
+  }
+}
 
-    try {
-      final response = await HttpUtils.get(url);
-      var res = AllNewest.fromJson(response);
-      //请求成功
-      if (res.code == Constant.successCode) {
-        //200
-        return res.data;
-      } else {
-        //其他错误提示
-        _onError(res.code);
-        return [];
-      }
-    } on DioError catch (e) {
-      return e.error;
+//////设备////////////
+
+class Device {
+  //设备列表
+  static getDeviceList() async {
+    String token = SpUtil.getString(Constant.token);
+    if (token == null) {
+      return false;
     }
+    final String url = "/user/device/devByUserId?token=$token";
+    final response = await HttpUtils.get(url);
+    var res = DeviceList.fromJson(response);
+    return res.data;
   }
 }

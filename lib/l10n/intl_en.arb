@@ -236,7 +236,10 @@
   "date_day":"日",
   "date_hou":"时",
   "date_min":"分",
-  "date_sec":"秒"
+  "date_sec":"秒",
+  "no_date":"暂无数据",
+  "l_qdl":"去登录",
+  "l_wdl":"未登录"
 
 
 

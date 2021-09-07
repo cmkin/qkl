@@ -19,6 +19,7 @@ import 'package:zjsb_app/page/home/page/message/app_message_detail.dart';
 import 'package:zjsb_app/page/home/page/message/message_center_page.dart';
 import 'package:zjsb_app/page/home/presenter/home_presenter.dart';
 import 'package:zjsb_app/page/home/provider/home_provider.dart';
+import 'package:zjsb_app/page/login/page/login_page.dart';
 import 'package:zjsb_app/page/login/provider/user_info.dart';
 import 'package:zjsb_app/widgets/marguee/index.dart';
 import 'home_list_page.dart';
@@ -141,9 +142,23 @@ class _HomeState extends State<Home>
                       size: ScreenUtil().setSp(28),
                     )),
                     Gaps.hGap5,
-                    Text(userInfo != null ? "${userInfo?.nick}" : "未登录")
-                        .fontSize(ScreenUtil().setSp(14))
-                        .textColor(ColorUtils.getThemeColor()),
+
+                    userInfo == null
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ),
+                              );
+                            },
+                            child: Text(S.of(context).l_wdl)
+                                .fontSize(14.sp)
+                                .textColor(ColorUtils.getThemeColor()))
+                        : Text("${userInfo?.nick}")
+                            .fontSize(ScreenUtil().setSp(14))
+                            .textColor(ColorUtils.getThemeColor()),
                     // Consumer<UserInfoPrivider>(
                     //   builder: (context, userinfo, child) {
                     //     return Text(userinfo.userInfo != null

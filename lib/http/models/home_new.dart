@@ -59,7 +59,7 @@ class Data extends Object {
     this.end,
     this.status,
     this.time,
-    String json,
+    this.creatTime,
   );
 
   factory Data.fromJson(Map<String, dynamic> srcJson) =>

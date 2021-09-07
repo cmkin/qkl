@@ -43,4 +43,5 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'end': instance.end,
       'status': instance.status,
       'time': instance.time,
+      'creatTime': instance.creatTime,
     };

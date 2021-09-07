@@ -2414,6 +2414,36 @@ class S {
       args: [],
     );
   }
+
+  /// `暂无数据`
+  String get no_date {
+    return Intl.message(
+      '暂无数据',
+      name: 'no_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `去登录`
+  String get l_qdl {
+    return Intl.message(
+      '去登录',
+      name: 'l_qdl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `未登录`
+  String get l_wdl {
+    return Intl.message(
+      '未登录',
+      name: 'l_wdl',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

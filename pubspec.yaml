@@ -80,6 +80,7 @@ dependencies:
   flutter_easylogger: ^2.3.0
   #骨架屏
   pk_skeleton: ^0.0.2
+  skeletons: ^0.0.3
   #电话时区
   intl_phone_number_input: ^0.7.0+2
   #屏幕适配

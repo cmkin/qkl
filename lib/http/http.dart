@@ -116,7 +116,7 @@ class Http {
     var headers;
     String accessToken = Global.accessToken;
     if (accessToken != null) {
-      headers = {"Authorization": 'Bearer $accessToken'};
+      headers = {"token": '$accessToken', "langId": Global.langId};
     }
     return headers;
   }

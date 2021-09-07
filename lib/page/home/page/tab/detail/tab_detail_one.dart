@@ -8,6 +8,8 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TabDetailOne extends StatefulWidget {
+  final details;
+  TabDetailOne({this.details});
   @override
   _TabDetailOneState createState() => _TabDetailOneState();
 }
@@ -16,8 +18,10 @@ class _TabDetailOneState extends State<TabDetailOne>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    final details = widget.details;
+
     List<TableDetail> list1 = [
-      TableDetail('${S.of(context).hm_bg_sbxh}', '存储服务器（分布式）A-1T'),
+      TableDetail('${S.of(context).hm_bg_sbxh}', details.infoTitle),
       TableDetail('${S.of(context).hm_bg_ccb}', 'BZZ')
     ];
     List<TableDetail> list2 = [
@@ -30,7 +34,7 @@ class _TabDetailOneState extends State<TabDetailOne>
     ];
     List<TableDetail> list4 = [
       TableDetail('${S.of(context).hm_bg_zlzq}',
-          '540${S.of(context).dw_tian}+540${S.of(context).dw_tian}')
+          '${details.product.period}${S.of(context).dw_tian}+${details.product.periodExtra}${S.of(context).dw_tian}')
     ];
     return MediaQuery.removePadding(
       removeTop: true,
